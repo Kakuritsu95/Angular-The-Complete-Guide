@@ -1,7 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
-import { DUMMY_USERS } from '../mock/dummy-users';
+import { Component, Input, input, computed } from '@angular/core';
+import { User } from '../mock/dummy-users';
 
-const randomIndex = (array: any[]) => Math.floor(Math.random() * array.length);
 @Component({
   selector: 'app-user',
   imports: [],
@@ -9,13 +8,20 @@ const randomIndex = (array: any[]) => Math.floor(Math.random() * array.length);
   styleUrl: './user.component.css',
 })
 export class UserComponent {
-  selectedUser = signal(DUMMY_USERS[randomIndex(DUMMY_USERS)]);
-  imagePath = computed(() => 'assets/users/' + this.selectedUser().avatar);
   // Without signals
-  // selectedUser = DUMMY_USERS[randomIndex(DUMMY_USERS)];
-  // get imagePath() {
-  //   return 'assets/users/' + this.selectedUser.avatar;
+  // @Input({ required: true }) avatar!: string;
+  // @Input({ required: true }) name!: string;
+
+  // get ImagePath() {
+  //   return 'assets/users/' + this.avatar();
   // }
-  onSelectUser = () =>
-    this.selectedUser.set(DUMMY_USERS[randomIndex(DUMMY_USERS)]);
+
+  // With signals
+  // avatar = input.required<string>();
+  // name = input.required<string>();
+
+  user = input.required<User>();
+  imagePath = computed(() => 'assets/users/' + this.user()?.avatar);
+
+  onSelectUser() {}
 }
